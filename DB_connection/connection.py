@@ -1,17 +1,26 @@
 import psycopg2
 import pandas as pd
+from dotenv import load_dotenv
+import os
 
 class PostgresConnection:
-    def __init__(self,  database, user, password,host='localhost', port='5432'):
-        self.host = host
-        self.database = database
-        self.user = user
-        self.password = password
-        self.port = port
+    def __init__(self):
+        # Load environment variables from .env file
+        load_dotenv()
+        
+        # Retrieve database connection information from environment variables
+        self.host = os.getenv('DB_HOST')
+        self.database = os.getenv('DB_NAME')
+        self.user = os.getenv('DB_USER')
+        self.password = os.getenv('DB_PASSWORD')
+        self.port = os.getenv('DB_PORT')
+
+        # Initialize connection and cursor
         self.connection = None
         self.cursor = None
 
     def connect(self):
+        """Establishes a connection to the PostgreSQL database."""
         try:
             self.connection = psycopg2.connect(
                 host=self.host,
@@ -26,6 +35,7 @@ class PostgresConnection:
             print("Error connecting to PostgreSQL database:", error)
 
     def disconnect(self):
+        """Closes the connection to the PostgreSQL database."""
         if self.cursor:
             self.cursor.close()
         if self.connection:
@@ -33,6 +43,7 @@ class PostgresConnection:
             print("Connection closed!")
 
     def execute_query(self, query):
+        """Executes a single query and commits changes."""
         try:
             self.cursor.execute(query)
             self.connection.commit()
@@ -41,6 +52,7 @@ class PostgresConnection:
             print("Error executing query:", error)
 
     def fetch_data(self, query):
+        """Executes a SELECT query and returns the result as a pandas DataFrame."""
         try:
             self.cursor.execute(query)
             data = self.cursor.fetchall()
