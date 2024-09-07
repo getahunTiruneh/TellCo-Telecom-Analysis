@@ -21,6 +21,17 @@ class DataQualityCheck:
             return "Success: No duplicate data!"
         else:
             return duplicate_rows
+    def fix_outliers(self, df, columns):
+        # remove outliers for the selected columns
+        for column in columns:
+            q1 = df[column].quantile(0.25)
+            q3 = df[column].quantile(0.75)
+            iqr = q3 - q1
+            lower_bound = q1 - 1.5 * iqr
+            upper_bound = q3 + 1.5 * iqr
+            df[column] = np.where(df[column] < lower_bound, lower_bound, df[column])
+            df[column] = np.where(df[column] > upper_bound, upper_bound, df[column])
+        return df
     
     
     
