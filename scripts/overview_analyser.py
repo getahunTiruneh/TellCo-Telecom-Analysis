@@ -31,7 +31,6 @@ class UserOverviewAnalysis:
         top_3_handset_manufacturers = handset_manufacturer_counts.head(3)
         top_3_handset_manufacturers.to_frame().reset_index()
         # Print the top 3 handset manufacturers
-        print("Top 3 Handset Manufacturers:")
         return top_3_handset_manufacturers
     def plot_top_3_handset_manufacturers(self,df):
         handset_manufacturer_counts=df['Handset Manufacturer'].value_counts()
@@ -39,7 +38,7 @@ class UserOverviewAnalysis:
         top_3_handset_manufacturers = handset_manufacturer_counts.head(3)
         
         # Plot the top 3 handset manufacturers
-        top_3_handset_manufacturers.plot(kind='pie', legend=False, color='skyblue')
+        top_3_handset_manufacturers.plot(kind='bar', legend=False, color='skyblue')
         plt.title('Top 3 Handset Manufacturers')
         plt.xlabel('Handset Manufacturers')
         plt.ylabel('Number of Users')
@@ -51,7 +50,7 @@ class UserOverviewAnalysis:
         top_3_manufacturers = self.top_3_handset_manufacturers(df)
         
         # Filter dataset for top 3 manufacturers
-        top_3_manufacturers_list = top_3_manufacturers.iloc[:,0].tolist()
+        top_3_manufacturers_list = top_3_manufacturers.index.tolist()
         filtered_df = df[df['Handset Manufacturer'].isin(top_3_manufacturers_list)]
 
         # Identify top 5 handsets per manufacturer
@@ -63,9 +62,8 @@ class UserOverviewAnalysis:
 
         # Print the top 5 handsets per manufacturer
         print("\nTop 5 Handsets per Top 3 Manufacturer:")
-        for manufacturer, handsets in top_5_handsets_per_manufacturer.items():
-            print(f"\n{manufacturer}:")
-            print(handsets)
+        # for manufacturer, handsets in top_5_handsets_per_manufacturer.items():
+
         return top_5_handsets_per_manufacturer
     
     def plot_top_5_handsets_per_manufacturer(self, df):
