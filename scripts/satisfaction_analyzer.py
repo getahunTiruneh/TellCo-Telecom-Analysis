@@ -226,7 +226,7 @@ class SatisfactionAnalyer:
 
         return cluster_aggregation
     
-    def export_to_mysql(self, merged_df, table_name, db_config):
+    def export_to_postgresql(self, merged_df, table_name, db_config):
         """
         Exports the final table containing user ID, engagement, experience, and satisfaction scores to MySQL database.
 
@@ -240,12 +240,13 @@ class SatisfactionAnalyer:
         """
         # Create a connection to the MySQL database
         try:
-            # Define the SQLAlchemy engine
-            engine = create_engine(f"mysql+mysqlconnector://{db_config['user']}:{db_config['password']}@{db_config['host']}/{db_config['database']}")
-
-            # Export the DataFrame to the MySQL table
+            # Define the SQLAlchemy engine for PostgreSQL
+            engine = create_engine(
+                f"postgresql+psycopg2://{db_config['user']}:{db_config['password']}@{db_config['host']}/{db_config['database']}"
+            )
+            # Export the DataFrame to the PostgreSQL table
             merged_df.to_sql(name=table_name, con=engine, if_exists='replace', index=False)
-            print(f"Data exported successfully to the table '{table_name}' in the MySQL database.")
+            print(f"Data exported successfully to the table '{table_name}' in the PostgreSQL database.")
 
         except Exception as e:
-            print("Error occurred while exporting data to MySQL:", e)
+            print("Error occurred while exporting data to PostgreSQL:", e)
