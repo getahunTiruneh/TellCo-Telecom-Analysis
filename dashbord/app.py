@@ -2,13 +2,22 @@ import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+from sqlalchemy import create_engine
 
 # Set page configuration
 st.set_page_config(page_title="Telecom Data - Exploratory Data Analysis", page_icon=":bar_chart:", layout="wide")
 
-# Load data from PostgreSQL
-conn = st.connection("teleco")
-df = conn.query("SELECT * FROM xdr_data")
+# Database connection configuration
+db_config = {
+    'user': 'postgres',
+    'password': 'postgres',
+    'host': 'localhost',
+    'database': 'teleco'
+}
+
+# Create SQLAlchemy engine and load data from PostgreSQL
+engine = create_engine(f"postgresql+psycopg2://{db_config['user']}:{db_config['password']}@{db_config['host']}/{db_config['database']}")
+df = pd.read_sql("SELECT * FROM xdr_data", engine)
 
 # Set page title
 st.title("Telecom Data - Exploratory Data Analysis")
@@ -22,14 +31,14 @@ st.sidebar.title("📊 Telecom Data Analysis App")
 st.sidebar.markdown("Use the menu below to navigate through different analysis sections:")
 
 menu_options = {
-    "📈 User_Overview_Analysis": "Overview of user behavior and handset usage patterns.",
-    "📊 User_Engagement_Analysis": "Engagement metrics for network services usage.",
-    "📉 User_Experience_Analysis": "Analysis of network performance and user experience.",
-    "😊 User_Satisfaction_Analysis": "Assessment of user satisfaction based on network metrics."
+    "📈 User Overview Analysis": "Overview of user behavior and handset usage patterns.",
+    "📊 User Engagement Analysis": "Engagement metrics for network services usage.",
+    "📉 User Experience Analysis": "Analysis of network performance and user experience.",
+    "😊 User Satisfaction Analysis": "Assessment of user satisfaction based on network metrics."
 }
 
 # Sidebar radio buttons with descriptions
-selected_option = st.sidebar.radio("Select Analysis Type", list(menu_options.keys()), format_func=lambda x: x.split(" ")[1])
+selected_option = st.sidebar.radio("Select Analysis Type", list(menu_options.keys()))
 
 # User Overview Analysis Section
 if selected_option == "📈 User Overview Analysis":
