@@ -22,10 +22,10 @@ st.sidebar.title("📊 Telecom Data Analysis App")
 st.sidebar.markdown("Use the menu below to navigate through different analysis sections:")
 
 menu_options = {
-    "📈 User Overview Analysis": "Overview of user behavior and handset usage patterns.",
-    "📊 User Engagement Analysis": "Engagement metrics for network services usage.",
-    "📉 User Experience Analysis": "Analysis of network performance and user experience.",
-    "😊 User Satisfaction Analysis": "Assessment of user satisfaction based on network metrics."
+    "📈 User_Overview_Analysis": "Overview of user behavior and handset usage patterns.",
+    "📊 User_Engagement_Analysis": "Engagement metrics for network services usage.",
+    "📉 User_Experience_Analysis": "Analysis of network performance and user experience.",
+    "😊 User_Satisfaction_Analysis": "Assessment of user satisfaction based on network metrics."
 }
 
 # Sidebar radio buttons with descriptions
