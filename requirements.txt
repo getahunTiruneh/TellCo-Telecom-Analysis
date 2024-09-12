@@ -3,9 +3,8 @@ numpy
 seaborn
 matplotlib
 psycopg2
-dotenv
+python-dotenv
 streamlit
 sqlalchemy
-psycopg2
-dotenv==0.0.5
 psycopg2-binary
+mysql-connector-python
